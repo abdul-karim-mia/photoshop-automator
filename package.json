@@ -1,6 +1,6 @@
 {
     "name": "photoshop-automator",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "description": "Professional Adobe Photoshop automation via COM/ExtendScript bridge (Cross-Platform).",
     "main": "handler.js",
     "scripts": {
@@ -27,7 +27,10 @@
     "homepage": "https://github.com/abdul-karim-mia/photoshop-automator",
     "openclaw": {
         "requires": {
-            "bins": [],
+            "bins": [
+                "cscript",
+                "osascript"
+            ],
             "os": [
                 "windows",
                 "macos"

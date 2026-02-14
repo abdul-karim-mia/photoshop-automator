@@ -6,7 +6,7 @@ metadata:
     "openclaw":
       {
         "requires": { 
-          "bins": [], 
+          "bins": ["cscript", "osascript"], 
           "os": ["windows", "macos"],
           "env": [], 
           "config": [] 
@@ -15,7 +15,7 @@ metadata:
   }
 ---
 
-# Photoshop Automator Skill (v1.2.2)
+# Photoshop Automator Skill (v1.2.3)
 
 This skill provides a high-performance bridge for automating Adobe Photoshop (vCS6 - 2026+) on Windows and macOS using the ExtendScript (JSX) engine via VBScript or AppleScript.
 
