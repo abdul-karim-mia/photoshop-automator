@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const VBS_CONTENT = `' Photoshop Automation Bridge v1.2.3
+const VBS_CONTENT = `' Photoshop Automation Bridge v1.2.4
 On Error Resume Next
 Set objArgs = WScript.Arguments
 If objArgs.Count < 1 Then
@@ -33,7 +33,7 @@ end tell
 
 module.exports = {
     name: 'photoshop-automator',
-    version: '1.2.3',
+    version: '1.2.4',
     description: 'Adobe Photoshop Automation Bridge (Cross-Platform)',
 
     commands: {

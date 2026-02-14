@@ -1,6 +1,6 @@
 {
     "name": "photoshop-automator",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "Professional Adobe Photoshop automation via COM/ExtendScript bridge (Cross-Platform).",
     "main": "handler.js",
     "scripts": {
