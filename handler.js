@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const VBS_CONTENT = `' Photoshop Automation Bridge v1.1.6
+const VBS_CONTENT = `' Photoshop Automation Bridge v1.2.3
 On Error Resume Next
 Set objArgs = WScript.Arguments
 If objArgs.Count < 1 Then
