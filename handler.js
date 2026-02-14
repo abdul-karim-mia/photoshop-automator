@@ -33,7 +33,7 @@ end tell
 
 module.exports = {
     name: 'photoshop-automator',
-    version: '1.2.1',
+    version: '1.2.2',
     description: 'Adobe Photoshop Automation Bridge (Cross-Platform)',
 
     commands: {
