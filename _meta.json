@@ -1,6 +1,6 @@
 {
     "name": "photoshop-automator",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Professional Adobe Photoshop automation via COM/ExtendScript bridge (Cross-Platform).",
     "author": "Abdul Karim Mia",
     "homepage": "https://github.com/abdul-karim-mia/photoshop-automator",
