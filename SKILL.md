@@ -36,7 +36,12 @@ This skill provides a high-performance bridge for automating Adobe Photoshop (vC
     - ✅ **USE**: Only `var`, standard `function` declarations, and string concatenation (`'a' + b`).
 - **Assume Active Document**: Commands operate on the *active* document. If none is open, scripts will fail unless they call `app.documents.add()`.
 
-### 2. Error Handling
+### 2. Security & Side Effects
+- **Filesystem Access**: The `runScript` command allows execution of arbitrary ExtendScript. This engine has **direct access to the host filesystem**.
+- **Side Effects**: Scripts can create, modify, or delete files on the local machine via the `File` and `Folder` objects.
+- **Verification**: Always review dynamically generated scripts before execution to prevent unintended document or filesystem modifications.
+
+### 3. Error Handling
 - **GUI Blocks**: If Photoshop has a modal dialog open (e.g., Save As window, error popup), COM operations will hang or fail. Direct the user to close any open dialogs.
 - **Layer Presence**: If `updateText` fails, ensure the layer name provided matches exactly (case-sensitive) with the layer in the PSD.
 
