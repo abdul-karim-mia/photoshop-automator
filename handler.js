@@ -1,6 +1,7 @@
 const { spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
 const VBS_CONTENT = `' Photoshop Automation Bridge v1.1.6
 On Error Resume Next
@@ -24,10 +25,16 @@ Else
 End If
 `;
 
+const APPLE_SCRIPT_TEMPLATE = (scriptPath) => `
+tell application "Adobe Photoshop"
+    do javascript file "${scriptPath}"
+end tell
+`;
+
 module.exports = {
     name: 'photoshop-automator',
-    version: '1.1.6',
-    description: 'Adobe Photoshop Automation Bridge',
+    version: '1.2.0',
+    description: 'Adobe Photoshop Automation Bridge (Cross-Platform)',
 
     commands: {
         runScript: {
@@ -36,23 +43,32 @@ module.exports = {
                 script: { type: 'string', description: 'The JSX code to execute (ES3)', required: true }
             },
             handler: async (ctx) => {
+                const isWin = os.platform() === 'win32';
+                const tempDir = os.tmpdir();
                 const timestamp = Date.now();
-                const vbsPath = path.join(process.env.TEMP || 'C:\\Windows\\Temp', `ps_bridge_${timestamp}.vbs`);
-                const jsxPath = path.join(process.env.TEMP || 'C:\\Windows\\Temp', `ps_script_${timestamp}.jsx`);
+                const jsxPath = path.join(tempDir, `ps_script_${timestamp}.jsx`);
 
-                fs.writeFileSync(vbsPath, VBS_CONTENT);
                 fs.writeFileSync(jsxPath, ctx.params.script);
 
-                const result = spawnSync('cscript', ['/nologo', vbsPath, jsxPath]);
-                const output = result.stdout.toString().trim();
+                let result;
+                if (isWin) {
+                    const vbsPath = path.join(tempDir, `ps_bridge_${timestamp}.vbs`);
+                    fs.writeFileSync(vbsPath, VBS_CONTENT);
+                    result = spawnSync('cscript', ['/nologo', vbsPath, jsxPath]);
+                    try { fs.unlinkSync(vbsPath); } catch (e) { }
+                } else {
+                    const appleScript = APPLE_SCRIPT_TEMPLATE(jsxPath);
+                    result = spawnSync('osascript', ['-e', appleScript]);
+                }
+
+                const output = result.stdout.toString().trim() || result.stderr.toString().trim();
 
                 // Cleanup
                 try {
-                    fs.unlinkSync(vbsPath);
                     fs.unlinkSync(jsxPath);
                 } catch (e) { }
 
-                if (output === 'SUCCESS') {
+                if (output.includes('SUCCESS') || (!isWin && result.status === 0)) {
                     return { text: '✅ **Photoshop Script Executed Successfully**' };
                 } else {
                     return { text: `❌ **Photoshop Error**:\n\`\`\`\n${output}\n\`\`\`` };
